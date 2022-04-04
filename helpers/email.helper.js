@@ -40,7 +40,7 @@ const emailProcessor = ({ email, subject, text, html }) => {
 export const sendEmailVerificationLink = (emailObj) => {
   const { firstName, pin, email } = emailObj
 
-  const link = `https://mern-soccer-store.herokuapp.com/api/v1/user/email-verification?pin=${pin}&email=${email}`
+  const link = `https://mern-soccer-store.herokuapp.com/email-verification?pin=${pin}&email=${email}`
   const obj = {
     ...emailObj,
     subject: 'Email confirmation required',
