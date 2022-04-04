@@ -29,13 +29,13 @@ import paymentRouter from './routers/paymentRouter.js'
 import orderRouter from './routers/orderRouter.js'
 
 // USE ROUTERS
-app.use('api/v1/user', userRouter)
-app.use('api/v1/category', categoryRouter)
-app.use('api/v1/products', productRouter)
-app.use('api/v1/cart', cartRouter)
-app.use('api/v1/token', tokenRouter)
-app.use('api/v1/payment', paymentRouter)
-app.use('api/v1/order', orderRouter)
+app.use('/api/v1/user', userRouter)
+app.use('/api/v1/category', categoryRouter)
+app.use('/api/v1/products', productRouter)
+app.use('/api/v1/cart', cartRouter)
+app.use('/api/v1/token', tokenRouter)
+app.use('/api/v1/payment', paymentRouter)
+app.use('/api/v1/order', orderRouter)
 
 app.use('/', (req, res) => {
   res.json({ message: 'Server is ready' })
