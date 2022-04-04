@@ -39,7 +39,7 @@ app.use('/api/v1/order', orderRouter)
 
 //  ------------ DEPLOYMENT -----------------
 
-app.use('/', (req, res) => {
+app.get('/', (req, res) => {
   req.json({ message: 'Server is ready' })
 })
 
