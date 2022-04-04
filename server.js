@@ -6,8 +6,6 @@ const app = express()
 
 import cors from 'cors'
 import helmet from 'helmet'
-import path from 'path'
-import { fileURLToPath } from 'url'
 
 const PORT = process.env.PORT || 8000
 
@@ -40,10 +38,6 @@ app.use('/api/v1/payment', paymentRouter)
 app.use('/api/v1/order', orderRouter)
 
 //  ------------ DEPLOYMENT -----------------
-
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'))
-}
 
 app.listen(PORT, (error) => {
   if (error) {
