@@ -37,8 +37,6 @@ app.use('/token', tokenRouter)
 app.use('/payment', paymentRouter)
 app.use('/order', orderRouter)
 
-//  ------------ DEPLOYMENT -----------------
-
 app.use('/', (req, res) => {
   res.json({ message: 'Server is ready' })
 })
