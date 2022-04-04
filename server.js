@@ -39,8 +39,8 @@ app.use('/api/v1/order', orderRouter)
 
 //  ------------ DEPLOYMENT -----------------
 
-app.get('/', (req, res) => {
-  req.json({ message: 'Server is ready' })
+app.use('/', (req, res) => {
+  res.json({ message: 'Server is ready' })
 })
 
 app.listen(PORT, (error) => {
