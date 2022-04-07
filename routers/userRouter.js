@@ -63,7 +63,8 @@ userRouter.post('/register', createUserValidation, async (req, res) => {
 
       return res.json({
         status: 'success',
-        message: 'New user has been successfully created.',
+        message:
+          'New user has been successfully created. You will be navigated to the login page shortly.',
         // We have sent an email confirmation to your email, please check and follow the instructions to verify and activate your account',
       })
     }
