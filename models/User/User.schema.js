@@ -25,11 +25,13 @@ const UserSchema = new Schema(
       unique: true,
       index: 1,
     },
-    isEmailConfirmed: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
+    // commented for deployment purpose
+
+    // isEmailConfirmed: {
+    //   type: Boolean,
+    //   required: true,
+    //   default: false,
+    // },
     password: {
       type: String,
       required: true,
