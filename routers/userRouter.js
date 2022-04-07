@@ -41,7 +41,6 @@ userRouter.post('/register', createUserValidation, async (req, res) => {
       req.body.password = hashPass
 
       const { _id, firstName, email } = await createUser(req.body)
-      console.log(req.body)
 
       if (_id) {
         // create unique activation link
