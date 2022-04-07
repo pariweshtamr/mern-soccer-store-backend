@@ -42,25 +42,30 @@ userRouter.post('/register', createUserValidation, async (req, res) => {
 
       const { _id, firstName, email } = await createUser(req.body)
 
-      if (_id) {
-        // create unique activation link
-        const { pin } = await createUniqueEmailConfirmation(email)
+      // ======================= Commented for deployment purpose ============================== //
+      // if (_id) {
+      //   // create unique activation link
+      //   const { pin } = await createUniqueEmailConfirmation(email)
 
-        if (pin) {
-          // email the link to the new user email
-          const forSendingEmail = {
-            firstName,
-            email,
-            pin,
-          }
-          sendEmailVerificationLink(forSendingEmail)
-        }
-        return res.json({
-          status: 'success',
-          message:
-            'New user has been successfully created. We have sent an email confirmation to your email, please check and follow the instructions to verify and activate your account',
-        })
-      }
+      //   if (pin) {
+      //     // email the link to the new user email
+      //     const forSendingEmail = {
+      //       firstName,
+      //       email,
+      //       pin,
+      //     }
+      //     sendEmailVerificationLink(forSendingEmail)
+      //   }
+
+      // }
+
+      // ======================================================================================= //
+
+      return res.json({
+        status: 'success',
+        message: 'New user has been successfully created.',
+        // We have sent an email confirmation to your email, please check and follow the instructions to verify and activate your account',
+      })
     }
     res.json({
       status: 'error',
@@ -79,48 +84,52 @@ userRouter.post('/register', createUserValidation, async (req, res) => {
   }
 })
 
+// ======================= Commented for deployment purpose ============================== //
+
 //email verification
-userRouter.patch(
-  '/email-verification',
-  userEmailVerificationValidation,
-  async (req, res) => {
-    try {
-      const result = await findUserEmailVerification(req.body)
+// userRouter.patch(
+//   '/email-verification',
+//   userEmailVerificationValidation,
+//   async (req, res) => {
+//     try {
+//       const result = await findUserEmailVerification(req.body)
 
-      if (result?._id) {
-        //information is valid now we can update the user
-        const data = await verifyEmail(result.email)
-        console.log(data)
-        if (data?._id) {
-          // delete the pin info
-          deleteInfo(req.body)
+//       if (result?._id) {
+//         //information is valid now we can update the user
+//         const data = await verifyEmail(result.email)
+//         console.log(data)
+//         if (data?._id) {
+//           // delete the pin info
+//           deleteInfo(req.body)
 
-          // send email confirmation to user
-          sendEmailVerificationConfirmation({
-            firstName: data.firstName,
-            email: data.email,
-          })
+//           // send email confirmation to user
+//           sendEmailVerificationConfirmation({
+//             firstName: data.firstName,
+//             email: data.email,
+//           })
 
-          return res.json({
-            status: 'success',
-            message: 'Your email has been verified. You may now log in.',
-          })
-        }
-      }
-      res.json({
-        status: 'error',
-        message:
-          'Unable to verify your email. The link is either invalid or expired.',
-      })
-    } catch (error) {
-      console.log(error)
-      res.json({
-        status: 'error',
-        message: 'Error, Unable to verify the email. Please try again later.',
-      })
-    }
-  },
-)
+//           return res.json({
+//             status: 'success',
+//             message: 'Your email has been verified. You may now log in.',
+//           })
+//         }
+//       }
+//       res.json({
+//         status: 'error',
+//         message:
+//           'Unable to verify your email. The link is either invalid or expired.',
+//       })
+//     } catch (error) {
+//       console.log(error)
+//       res.json({
+//         status: 'error',
+//         message: 'Error, Unable to verify the email. Please try again later.',
+//       })
+//     }
+//   },
+// )
+
+// ================================================================================================ //
 
 //USER LOGIN
 userRouter.post('/login', loginUserFormValidation, async (req, res) => {
