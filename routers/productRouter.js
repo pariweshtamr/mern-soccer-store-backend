@@ -1,11 +1,11 @@
-import express from 'express'
+import express from "express"
 const productRouter = express.Router()
 
-import { products } from '../data.js'
-import Product from '../models/Product/Product.schema.js'
+import { products } from "../data.js"
+import Product from "../models/Product/Product.schema.js"
 
 //Get all products or by category
-productRouter.get('/', async (req, res) => {
+productRouter.get("/", async (req, res) => {
   const qCategory = req.query.category
   try {
     let products
@@ -20,19 +20,18 @@ productRouter.get('/', async (req, res) => {
   }
 })
 
-productRouter.get('/seed', async (req, res) => {
+productRouter.get("/seed", async (req, res) => {
   // await Product.deleteMany(products) //remove all products from db
   const createdProducts = await Product.insertMany(products)
   res.send({ createdProducts })
 })
 
-productRouter.get('/:id', async (req, res) => {
+productRouter.get("/:id", async (req, res) => {
   const product = await Product.findById(req.params.id)
-  console.log(products)
   if (product) {
     res.send(product)
   } else {
-    res.status(404).send({ message: 'Product not found' })
+    res.status(404).send({ message: "Product not found" })
   }
 })
 

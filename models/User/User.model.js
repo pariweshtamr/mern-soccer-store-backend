@@ -1,11 +1,10 @@
-import User from './User.schema.js'
+import User from "./User.schema.js"
 
 // REGISTER USER
 
 export const createUser = (newUser) => {
   try {
     const user = User(newUser).save()
-    console.log(user)
     return user
   } catch (error) {
     console.log(error)
@@ -37,7 +36,7 @@ export const verifyEmail = (email) => {
     return User.findOneAndUpdate(
       { email },
       { isEmailConfirmed: true },
-      { new: true },
+      { new: true }
     )
   } catch (error) {
     throw new Error(error)
@@ -66,5 +65,5 @@ export const getUserByUsernameAndRefreshToken = (filter) => {
 }
 
 export const removeRefreshJWT = (refreshJWT) => {
-  return User.findOneAndUpdate({ refreshJWT }, { refreshJWT: '' })
+  return User.findOneAndUpdate({ refreshJWT }, { refreshJWT: "" })
 }

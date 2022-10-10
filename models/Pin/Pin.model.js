@@ -1,5 +1,5 @@
-import Pin from './Pin.schema.js'
-import RandomNumberGenerator from '../../utils/RandomNumberGenerator.js'
+import Pin from "./Pin.schema.js"
+import RandomNumberGenerator from "../../utils/RandomNumberGenerator.js"
 
 //creating a unique email validation info
 const pinLength = 6
