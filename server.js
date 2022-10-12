@@ -1,16 +1,16 @@
-import dotenv from 'dotenv'
+import dotenv from "dotenv"
 dotenv.config()
 
-import express from 'express'
+import express from "express"
 const app = express()
 
-import cors from 'cors'
-import helmet from 'helmet'
+import cors from "cors"
+import helmet from "helmet"
 
 const PORT = process.env.PORT || 8000
 
 // Connect MongoDB
-import mongoClient from './config/db.js'
+import mongoClient from "./config/db.js"
 mongoClient()
 
 //Middlewares
@@ -20,25 +20,25 @@ app.use(cors())
 app.use(helmet())
 
 //IMPORT ROUTERS
-import userRouter from './routers/userRouter.js'
-import categoryRouter from './routers/categoryRouter.js'
-import productRouter from './routers/productRouter.js'
-import cartRouter from './routers/cartRouter.js'
-import tokenRouter from './routers/tokenRouter.js'
-import paymentRouter from './routers/paymentRouter.js'
-import orderRouter from './routers/orderRouter.js'
+import userRouter from "./routers/userRouter.js"
+import categoryRouter from "./routers/categoryRouter.js"
+import productRouter from "./routers/productRouter.js"
+import cartRouter from "./routers/cartRouter.js"
+import tokenRouter from "./routers/tokenRouter.js"
+import paymentRouter from "./routers/paymentRouter.js"
+import orderRouter from "./routers/orderRouter.js"
 
 // USE ROUTERS
-app.use('/api/v1/user', userRouter)
-app.use('/api/v1/category', categoryRouter)
-app.use('/api/v1/products', productRouter)
-app.use('/api/v1/cart', cartRouter)
-app.use('/api/v1/token', tokenRouter)
-app.use('/api/v1/payment', paymentRouter)
-app.use('/api/v1/order', orderRouter)
+app.use("/api/v1/user", userRouter)
+app.use("/api/v1/category", categoryRouter)
+app.use("/api/v1/products", productRouter)
+app.use("/api/v1/cart", cartRouter)
+app.use("/api/v1/token", tokenRouter)
+app.use("/api/v1/payment", paymentRouter)
+app.use("/api/v1/order", orderRouter)
 
-app.use('/', (req, res) => {
-  res.json({ message: 'Server is ready' })
+app.use("/", (req, res) => {
+  res.json({ message: "Server is ready!" })
 })
 
 app.listen(PORT, (error) => {
