@@ -1,19 +1,17 @@
-import express from 'express'
-import Stripe from 'stripe'
+import express from "express"
+import Stripe from "stripe"
 
 const paymentRouter = express.Router()
 
-const stripe = Stripe(
-  'sk_test_51KShxEIHP3y9z5gN3jl9bAn6dhZAFwZVKqjawzAtfGpwdCRRRBGh5lErkFwkS79XsYjZ8zKqq9hLAKQhMp6wi4Fe00i6Uxq9S6',
-)
-
-paymentRouter.post('/create', async (req, res) => {
+paymentRouter.post("/create", async (req, res) => {
+  const secret = process.env.STRIPE_KEY
+  const stripe = Stripe(secret)
   try {
     const { amount } = req.body
     const paymentIntent = await stripe.paymentIntents.create({
-      description: 'Soccer Boot Store.',
+      description: "Soccer Boot Store.",
       amount,
-      currency: 'aud',
+      currency: "aud",
     })
 
     res.status(200).send(paymentIntent.client_secret)
