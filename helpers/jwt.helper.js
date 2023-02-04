@@ -21,7 +21,7 @@ const createRefreshJWT = async (_id, username) => {
   })
 
   //STORE IN DB
-  const result = await setRefresjwtHelperhJWT(_id, token)
+  const result = await setRefreshJWT(_id, token)
 
   if (result?._id) {
     return token

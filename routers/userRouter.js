@@ -1,25 +1,25 @@
-import express from 'express'
-import { comparePassword, hashPassword } from '../helpers/bcrypt.helper.js'
+import express from "express"
+import { comparePassword, hashPassword } from "../helpers/bcrypt.helper.js"
 import {
   sendEmailVerificationConfirmation,
   sendEmailVerificationLink,
   sendPasswordUpdateNotification,
-} from '../helpers/email.helper.js'
-import { getJWTs } from '../helpers/jwt.helper.js'
-import { isUser } from '../middlewares/auth.middleware.js'
+} from "../helpers/email.helper.js"
+import { getJWTs } from "../helpers/jwt.helper.js"
+import { isUser } from "../middlewares/auth.middleware.js"
 import {
   createUserValidation,
   forgotPasswordResetFormValidation,
   loginUserFormValidation,
   passwordUpdateFormValidation,
   userEmailVerificationValidation,
-} from '../middlewares/formValidation.middleware.js'
+} from "../middlewares/formValidation.middleware.js"
 import {
   createUniqueEmailConfirmation,
   deleteInfo,
   findUserEmailVerification,
-} from '../models/Pin/Pin.model.js'
-import { removeSession } from '../models/Session/Session.model.js'
+} from "../models/Pin/Pin.model.js"
+import { removeSession } from "../models/Session/Session.model.js"
 import {
   createUser,
   getUserByUsername,
@@ -27,12 +27,12 @@ import {
   verifyEmail,
   updateUserProfile,
   updateUserProfileByEmail,
-} from '../models/User/User.model.js'
+} from "../models/User/User.model.js"
 
 const userRouter = express.Router()
 
 // CREATE NEW USER
-userRouter.post('/register', createUserValidation, async (req, res) => {
+userRouter.post("/register", createUserValidation, async (req, res) => {
   try {
     //encrypt password
     const hashPass = hashPassword(req.body.password)
@@ -62,25 +62,25 @@ userRouter.post('/register', createUserValidation, async (req, res) => {
       // ======================================================================================= //
 
       return res.json({
-        status: 'success',
+        status: "success",
         message:
-          'New user has been successfully created. You will be navigated to the login page shortly...',
+          "New user has been successfully created. You will be navigated to the login page shortly...",
         // We have sent an email confirmation to your email, please check and follow the instructions to verify and activate your account',
       })
     }
     res.json({
-      status: 'error',
-      message: 'Unable to create new user. Please try again later',
+      status: "error",
+      message: "Unable to create new user. Please try again later",
     })
   } catch (error) {
-    let msg = 'Error, Unable to create new user'
+    let msg = "Error, Unable to create new user"
     console.log(error.message)
-    if (error.message.includes('E11000 duplicate key error collection')) {
-      msg = 'Error, an account already exists for this email address'
+    if (error.message.includes("E11000 duplicate key error collection")) {
+      msg = "Error, an account already exists for this email address"
     }
     res.json({
-      status: 'error',
-      message: 'Unable to create new user',
+      status: "error",
+      message: "Unable to create new user",
     })
   }
 })
@@ -133,7 +133,7 @@ userRouter.post('/register', createUserValidation, async (req, res) => {
 // ================================================================================================ //
 
 //USER LOGIN
-userRouter.post('/login', loginUserFormValidation, async (req, res) => {
+userRouter.post("/login", loginUserFormValidation, async (req, res) => {
   try {
     const { username, password } = req.body
 
@@ -147,62 +147,63 @@ userRouter.post('/login', loginUserFormValidation, async (req, res) => {
       if (isPasswordMatch) {
         // GET JWTs tHEN SEND TO CLIENT
         const jwts = await getJWTs({ _id: user._id, username: user.username })
+
         user.password = undefined
 
         return res.json({
-          status: 'success',
-          messsage: 'Login successful',
+          status: "success",
+          messsage: "Login successful",
           jwts,
           user,
         })
       }
     }
     res.status(401).json({
-      status: 'error',
-      messsage: 'Unauthorized',
+      status: "error",
+      messsage: "Unauthorized",
     })
   } catch (error) {
     console.log(error)
     res.status(500).json({
-      status: 'error',
-      message: 'Error, unable to login at the moment. Please try again later',
+      status: "error",
+      message: "Error, unable to login at the moment. Please try again later",
     })
   }
 })
 
 // user logout
-userRouter.post('/logout', async (req, res) => {
+userRouter.post("/logout", async (req, res) => {
   try {
     const { accessJWT, refreshJWT } = req.body
     accessJWT && (await removeSession(accessJWT))
     refreshJWT && (await removeRefreshJWT(refreshJWT))
 
     res.json({
-      status: 'success',
-      message: 'Logging out...',
+      status: "success",
+      message: "Logging out...",
     })
   } catch (error) {
     console.log(error)
     res.status(500).json({
-      status: 'error',
-      message: 'Error, unable to Logout, Please try again later.',
+      status: "error",
+      message: "Error, unable to Logout, Please try again later.",
     })
   }
 })
 
 // Get user info
-userRouter.get('/', isUser, (req, res) => {
+userRouter.get("/", isUser, (req, res) => {
   req.user.password = undefined
   req.user.refreshJWT = undefined
   res.json({
-    status: 'success',
-    message: 'User Profile',
+    status: "success",
+    message: "User Profile",
     user: req.user,
   })
 })
 
 // Update User info
-userRouter.patch('/', isUser, async (req, res) => {
+userRouter.patch("/", isUser, async (req, res) => {
   try {
     const { _id } = req.user
     console.log(_id, req.body)
@@ -212,28 +213,28 @@ userRouter.patch('/', isUser, async (req, res) => {
 
       if (result?._id) {
         return res.json({
-          status: 'success',
-          message: 'Your profile has been updated successfully',
+          status: "success",
+          message: "Your profile has been updated successfully",
         })
       }
     }
 
     return res.json({
-      status: 'error',
-      message: 'Unable to update user information. Please try again later.',
+      status: "error",
+      message: "Unable to update user information. Please try again later.",
     })
   } catch (error) {
     console.log(error)
     return res.json({
-      status: 'error',
-      message: 'Unable to update user information. Please try again later.',
+      status: "error",
+      message: "Unable to update user information. Please try again later.",
     })
   }
 })
 
 // Update password when logged in
 userRouter.post(
-  '/password-update',
+  "/password-update",
   isUser,
   passwordUpdateFormValidation,
   async (req, res) => {
@@ -251,8 +252,8 @@ userRouter.post(
           const user = await updateUserProfile(_id, { password: hashedPass })
           if (user._id) {
             res.json({
-              status: 'success',
-              message: 'Password updated successfully',
+              status: "success",
+              message: "Password updated successfully",
             })
             // send email notification
             sendPasswordUpdateNotification({ firstName, email })
@@ -261,21 +262,21 @@ userRouter.post(
         }
       }
       res.json({
-        status: 'error',
-        message: 'Unable to update password. Please try again later.',
+        status: "error",
+        message: "Unable to update password. Please try again later.",
       })
     } catch (error) {
       res.json({
-        status: 'error',
-        message: 'Error, unable to process your request.',
+        status: "error",
+        message: "Error, unable to process your request.",
       })
     }
-  },
+  }
 )
 
 // reset forgotten password when logged out
 userRouter.post(
-  '/reset-password',
+  "/reset-password",
   forgotPasswordResetFormValidation,
   async (req, res) => {
     try {
@@ -295,8 +296,8 @@ userRouter.post(
           })
           if (user._id) {
             res.json({
-              status: 'success',
-              message: 'Password updated successfully',
+              status: "success",
+              message: "Password updated successfully",
             })
             // send email notification
             sendPasswordUpdateNotification({ email })
@@ -309,16 +310,16 @@ userRouter.post(
         }
       }
       res.json({
-        status: 'error',
-        message: 'Unable to reset password. Please try again later.',
+        status: "error",
+        message: "Unable to reset password. Please try again later.",
       })
     } catch (error) {
       res.json({
-        status: 'error',
-        message: 'Error, unable to process your request.',
+        status: "error",
+        message: "Error, unable to process your request.",
       })
     }
-  },
+  }
 )
 
 export default userRouter
