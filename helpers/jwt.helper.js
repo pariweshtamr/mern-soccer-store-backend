@@ -1,13 +1,13 @@
-import jwt from 'jsonwebtoken'
-import { storeSession } from '../models/Session/Session.model.js'
-import { setRefreshJWT } from '../models/User/User.model.js'
+import jwt from "jsonwebtoken"
+import { storeSession } from "../models/Session/Session.model.js"
+import { setRefreshJWT } from "../models/User/User.model.js"
 
 export const createAccessJWT = async ({ _id, username }) => {
   const token = jwt.sign({ username }, process.env.JWT_ACCESS_SECRET, {
-    expiresIn: '1d',
+    expiresIn: "1d",
   })
   //STORE IN DB
-  const result = await storeSession({ type: 'accessJWT', token, userId: _id })
+  const result = await storeSession({ type: "accessJWT", token, userId: _id })
 
   if (result?._id) {
     return token
@@ -17,11 +17,11 @@ export const createAccessJWT = async ({ _id, username }) => {
 
 const createRefreshJWT = async (_id, username) => {
   const token = jwt.sign({ username }, process.env.JWT_REFRESH_SECRET, {
-    expiresIn: '30d',
+    expiresIn: "30d",
   })
 
   //STORE IN DB
-  const result = await setRefreshJWT(_id, token)
+  const result = await setRefresjwtHelperhJWT(_id, token)
 
   if (result?._id) {
     return token

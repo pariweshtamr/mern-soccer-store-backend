@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose"
 const Schema = mongoose.Schema
 
 const UserSchema = new Schema(
@@ -43,19 +43,19 @@ const UserSchema = new Schema(
     },
     refreshJWT: {
       type: String,
-      default: '',
+      default: "",
     },
     Orders: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Order',
+        ref: "Order",
       },
     ],
   },
   {
     timestamps: true,
-  },
+  }
 )
 
-const User = mongoose.model('User', UserSchema)
+const User = mongoose.model("User", UserSchema)
 export default User
